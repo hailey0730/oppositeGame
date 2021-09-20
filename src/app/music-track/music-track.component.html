@@ -1,0 +1,30 @@
+<mat-grid-list cols="6" rowHeight="40px">
+  <mat-grid-tile
+      *ngFor="let box of musicTrackUp"
+      colspan="1"
+      rowspan="1"
+      [style.background]="box.color">
+      <mat-icon>{{box.icon}}</mat-icon>
+  </mat-grid-tile>
+  <mat-grid-tile
+      *ngFor="let box of musicTrackLeft"
+      colspan="1"
+      rowspan="1"
+      [style.background]="box.color">
+      <mat-icon>{{box.icon}}</mat-icon>
+  </mat-grid-tile>
+  <mat-grid-tile
+      *ngFor="let box of musicTrackRight"
+      colspan="1"
+      rowspan="1"
+      [style.background]="box.color">
+      <mat-icon>{{box.icon}}</mat-icon>
+  </mat-grid-tile>
+  <mat-grid-tile
+      *ngFor="let box of musicTrackDown"
+      colspan="1"
+      rowspan="1"
+      [style.background]="box.color">
+      <mat-icon>{{box.icon}}</mat-icon>
+  </mat-grid-tile>
+</mat-grid-list>

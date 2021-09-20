@@ -2,9 +2,13 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.4.
 
+To Use google sheet as db using api: https://blog.coupler.io/how-to-use-google-sheets-as-database/
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+Or run `ng serve --host 0.0.0.0` to access through ip address and test on mobile.
 
 ## Code scaffolding
 
