@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/opposite-game",
+    "rewrites": [{
+      "source": "**",
+      "destination": "/index.html"
+    }
+    ]
+  }
+}

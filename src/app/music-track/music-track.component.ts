@@ -1,5 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { MusicService } from '../service/music.service';
+import { ParticlesComponent } from '../particles/particles.component';
 import Swal from 'sweetalert2';
 
 // auto generate music track
@@ -12,6 +13,7 @@ import Swal from 'sweetalert2';
 export class MusicTrackComponent implements OnInit {
   @Output() scoreCalculation = new EventEmitter();
   @Output() resetScore = new EventEmitter();
+  @ViewChild(ParticlesComponent) particlesComponent: ParticlesComponent;
   musicTrackUp: any = [];
   musicTrackLeft: any = [];
   musicTrackRight: any = [];
@@ -26,9 +28,10 @@ export class MusicTrackComponent implements OnInit {
   };
   audio: any;
   track: any = [];
-  firstColColor = '#c3c39c';
-  hitColor = '#ffffc6';
-  normalColor = "#8c8b8b";
+  firstColColor = '#384B8D';
+  hitColor = '#536DFE';
+  normalColor = '#4a4a4a';
+  level = 500;
   constructor(private musicService: MusicService) {}
 
   ngOnInit(): void {
@@ -40,27 +43,44 @@ export class MusicTrackComponent implements OnInit {
     console.log('game start');
     this.resetMusicTracks();
     Swal.fire({
-      title: 'This is a totally opposite game.',
-      confirmButtonText: `Play`,
+      title: 'How to play',
+      text: 'When arrows reach the leftmost column, press the opposite direction arrow',
+      confirmButtonText: `Easy`,
+      confirmButtonColor: '#384B8D',
+      denyButtonColor: '#7C4DFF',
+      cancelButtonColor: '#B254C6',
+      showDenyButton: true,
+      showCancelButton: true,
+      denyButtonText: `Medium`,
+      cancelButtonText: 'Hard'
     }).then((result) => {
+      if (result.isConfirmed){
+        this.level = 800;
+      }else if (result.isDenied){
+        this.level = 500;
+      }else if (result.isDismissed){
+        this.level = 300;
+      }
       this.playMusicTrack();
     });
   }
 
   playMusicTrack() {
     let songNo = Math.floor(Math.random() * 3);
-    switch(songNo){
+    switch (songNo) {
       case 0:
         this.audio = new Audio('../../assets/music/bensound-creativeminds.mp3');
         break;
-        case 1:
-        this.audio = new Audio('../../assets/music/bensound-acousticbreeze.mp3');
+      case 1:
+        this.audio = new Audio(
+          '../../assets/music/bensound-acousticbreeze.mp3'
+        );
         break;
-        case 0:
+      case 0:
         this.audio = new Audio('../../assets/music/bensound-memories.mp3');
         break;
     }
-    
+
     this.audio.play();
     this.playInterval = setInterval(() => {
       if (this.currentTrack < this.track.length + 6) {
@@ -68,7 +88,7 @@ export class MusicTrackComponent implements OnInit {
       } else {
         this.stopMusicTrack();
       }
-    }, 500);
+    }, this.level);
   }
 
   /* getRandomTrack() {
@@ -117,6 +137,7 @@ export class MusicTrackComponent implements OnInit {
           this.musicTrackUp[0].color = this.hitColor;
           this.press.up = true;
           this.scoreCalculation.emit(1);
+          this.particlesComponent.onEvent('up');
         } else {
           this.stopMusicTrack();
         }
@@ -126,6 +147,7 @@ export class MusicTrackComponent implements OnInit {
           this.musicTrackLeft[0].color = this.hitColor;
           this.press.left = true;
           this.scoreCalculation.emit(1);
+          this.particlesComponent.onEvent('left');
         } else {
           this.stopMusicTrack();
         }
@@ -135,6 +157,7 @@ export class MusicTrackComponent implements OnInit {
           this.musicTrackRight[0].color = this.hitColor;
           this.press.right = true;
           this.scoreCalculation.emit(1);
+          this.particlesComponent.onEvent('right');
         } else {
           this.stopMusicTrack();
         }
@@ -144,6 +167,7 @@ export class MusicTrackComponent implements OnInit {
           this.musicTrackDown[0].color = this.hitColor;
           this.press.down = true;
           this.scoreCalculation.emit(1);
+          this.particlesComponent.onEvent('down');
         } else {
           this.stopMusicTrack();
         }
