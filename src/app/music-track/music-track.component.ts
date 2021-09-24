@@ -31,7 +31,7 @@ export class MusicTrackComponent implements OnInit {
   firstColColor = '#384B8D';
   hitColor = '#536DFE';
   normalColor = '#4a4a4a';
-  level = 500;
+  level = 600;
   constructor(private musicService: MusicService) {}
 
   ngOnInit(): void {
@@ -45,6 +45,7 @@ export class MusicTrackComponent implements OnInit {
     Swal.fire({
       title: 'How to play',
       text: 'When arrows reach the leftmost column, press the opposite direction arrow',
+      allowOutsideClick: false,
       confirmButtonText: `Easy`,
       confirmButtonColor: '#384B8D',
       denyButtonColor: '#7C4DFF',
@@ -57,12 +58,30 @@ export class MusicTrackComponent implements OnInit {
       if (result.isConfirmed){
         this.level = 800;
       }else if (result.isDenied){
-        this.level = 500;
+        this.level = 600;
       }else if (result.isDismissed){
-        this.level = 300;
+        this.level = 400;
       }
       this.playMusicTrack();
     });
+  }
+
+  pauseGame(){
+    clearInterval(this.playInterval);
+    this.audio.pause();
+    localStorage.setItem('gameStop', 'true');
+  }
+
+  restartGame(){
+    this.audio.play();
+    localStorage.setItem('gameStop', 'false');
+    this.playInterval = setInterval(() => {
+      if (this.currentTrack < this.track.length + 6) {
+        this.generateMusicTrack();
+      } else {
+        this.stopMusicTrack();
+      }
+    }, this.level);
   }
 
   playMusicTrack() {
@@ -76,11 +95,10 @@ export class MusicTrackComponent implements OnInit {
           '../../assets/music/bensound-acousticbreeze.mp3'
         );
         break;
-      case 0:
+      case 2:
         this.audio = new Audio('../../assets/music/bensound-memories.mp3');
         break;
     }
-
     this.audio.play();
     this.playInterval = setInterval(() => {
       if (this.currentTrack < this.track.length + 6) {
@@ -120,6 +138,7 @@ export class MusicTrackComponent implements OnInit {
     Swal.fire({
       title: 'Your Score: ' + this.musicService.score,
       confirmButtonText: `Replay`,
+      allowOutsideClick: false
     }).then((result) => {
       this.currentTrack = 0;
       this.musicService.score = 0;

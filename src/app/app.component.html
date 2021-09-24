@@ -129,6 +129,9 @@
 <div class="toolbar" role="banner">
   <p style="margin-left: 10px;">Score: <span id="score">{{score}} </span></p>
     <div class="spacer"></div>
+    <mat-icon *ngIf="!pauseGame" (click)="pause()">pause</mat-icon>
+    <mat-icon *ngIf="pauseGame" (click)="restart()">play_arrow</mat-icon>
+    <p style="margin-right: 10px;cursor: pointer;" (click)="showAbout()">About</p>
 </div>
 
 <div class="content" role="main">

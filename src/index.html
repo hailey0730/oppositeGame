@@ -1,16 +1,56 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>OppositeGame</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
-<body class="mat-typography" style="overflow: hidden;background-color: #303030;">
-  <app-root></app-root>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>OppositeGame</title>
+    <base href="/" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <!-- user-scalable=no only works if not ios  -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="mat-typography"
+    style="overflow: hidden; background-color: #303030"
+  >
+    <script>
+      // works
+      document.body.addEventListener(
+        "wheel",
+        (e) => {
+          if (e.ctrlKey) {
+            e.preventDefault(); //prevent zoom
+          }
+        },
+        { passive: false }
+      );
+      // doesn't work
+      document.body.addEventListener("keyup", (e) => {
+        if (
+          e.ctrlKey &&
+          (e.which === 61 ||
+            e.which === 107 ||
+            e.which === 109 ||
+            e.which === 173 ||
+            e.which === 187 ||
+            e.which === 189)
+        ) {
+          console.log(e);
+          e.preventDefault(); //prevent zoom
+        }
+      });
+    </script>
+    <app-root></app-root>
+  </body>
 </html>
